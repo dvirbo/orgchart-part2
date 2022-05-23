@@ -4,7 +4,9 @@ namespace ariel
 {
     OrgChart::OrgChart() // default
     {
-        this->_root = nullptr;
+    }
+    OrgChart::~OrgChart() // default
+    {
     }
     OrgChart::OrgChart(OrgChart &other) // deep
     {
@@ -12,7 +14,7 @@ namespace ariel
         // need to check if ned to add assigh to nullptr;
     }
 
-    OrgChart &OrgChart::operator=(OrgChart &other) // overload '=' for deep
+    OrgChart &OrgChart::operator=(OrgChart const &other) // overload '=' for deep
     {
         this->_root = other._root;
         return *this;
@@ -42,11 +44,12 @@ namespace ariel
         return *this;
     }
 
-    bool OrgChart::find_child(shared_ptr<Node> curr, string &parent, string &child)
+    bool OrgChart::find_child(shared_ptr<Node> &curr, string &parent, string &child)
     {
         shared_ptr<Node> nchild;
         if (curr->_name.compare(parent) == 0)
         { // equals
+            nchild = make_shared<Node>(child);
             nchild->_name = child;
             curr->_sons.push_back(nchild);
             return true;
@@ -101,6 +104,7 @@ namespace ariel
             }
             remain.pop();
         }
+        this->_ptr = this->_level.front();
     }
     void OrgChart::iterator::init_reverse(shared_ptr<Node> n)
     {
@@ -114,6 +118,7 @@ namespace ariel
             init_reverse(n->_sons[ind]);
             ind--;
         }
+        this->_ptr = this->_reverse.front();
     }
 
     void OrgChart::iterator::init_pre(shared_ptr<Node> n)
@@ -124,9 +129,10 @@ namespace ariel
 
             init_pre(n->_sons.at(ind));
         }
+        this->_ptr = this->_pre.front();
     }
 
-    OrgChart::iterator::iterator(shared_ptr<Node> ptr, int order) : _ptr(ptr), _order(order)
+    OrgChart::iterator::iterator(shared_ptr<Node> ptr, int order) : _ptr(ptr), _order(order), _count(0)
     {
         if (this->_ptr != nullptr)
         {
@@ -140,11 +146,11 @@ namespace ariel
                 else if (this->_order == 2) // reverse order
                 {
                     this->_reverse.push_back(ptr);
-                    init_reverse(ptr);
+                    iterator::init_reverse(ptr);
                 }
                 else // preorder
                 {
-                    init_reverse(ptr);
+                    iterator::init_pre(ptr);
                 }
             }
         }
@@ -163,24 +169,26 @@ namespace ariel
     OrgChart::iterator &OrgChart::iterator::operator++()
     {
 
-        if (_order == 1 && !this->_level.empty())
+        if (_order == 1 && this->_level.back() != this->_ptr)
         {
-            this->_ptr = this->_level.front();
             this->_level.erase(this->_level.begin());
+            this->_ptr = this->_level.front();
         }
-        else if (_order == 2 && !this->_reverse.empty())
+        else if (_order == 2 && this->_reverse.back() != this->_ptr)
         {
-            this->_ptr = this->_reverse.front();
             this->_reverse.erase(this->_reverse.begin());
+            this->_ptr = this->_reverse.front();
         }
-        else if (_order == 3 && !this->_pre.empty())
+        else if (_order == 3 && this->_pre.back() != this->_ptr)
+      //  else if (_order == 3 && !this->_pre.empty())
         {
-            this->_ptr = this->_pre.front();
             this->_pre.erase(this->_pre.begin());
+            this->_ptr = this->_pre.front();
         }
         else
         {
-            throw invalid_argument("eror in operator++ ");
+            _ptr = nullptr;
+            return *this;
         }
         return *this;
     }
@@ -236,7 +244,7 @@ namespace ariel
             return out;
         }
         queue<shared_ptr<OrgChart::Node>> remain;
-
+        cout << tree._root->_name << endl;
         for (shared_ptr<OrgChart::Node> curr : tree._root->_sons)
         {
             out << curr->_name << "  ";

@@ -17,20 +17,20 @@ namespace ariel
             vector<shared_ptr<Node>> _sons;
             shared_ptr<Node> _father;
 
-          Node(string &name) : _name(name), _father() {}
+            Node(string &name) : _name(name){}
         };
         shared_ptr<Node> _root; // init the root here
 
     public:
-        OrgChart();                           // default
-        OrgChart(OrgChart &other);            // deep
-        OrgChart &operator=(OrgChart &other); // overload '=' for deep
+        OrgChart();                                     // default
+        ~OrgChart();   
+        OrgChart(OrgChart &other);                      // deep
+        OrgChart &operator=(OrgChart const &other);           // overload '=' for deep
         OrgChart(OrgChart &&other) noexcept;            // shalow
         OrgChart &operator=(OrgChart &&other) noexcept; // overload '=' for shalow
         OrgChart &add_root(string root);
         OrgChart &add_sub(string parent, string child);
         friend std::ostream &operator<<(std::ostream &out, const OrgChart &tree);
-       
 
         class iterator
         {
@@ -40,6 +40,7 @@ namespace ariel
             vector<shared_ptr<Node>> _reverse;
             vector<shared_ptr<Node>> _pre;
             int _order; // (1, level), (2, reverse) , (3, pre)
+            int _count;
 
         public:
             iterator(shared_ptr<Node> ptr, int order);
@@ -69,6 +70,6 @@ namespace ariel
         iterator end();
 
         bool check_root();
-        bool find_child(shared_ptr<Node> curr, string &parent, string &chid);
+        bool find_child(shared_ptr<Node> &curr, string &parent, string &chid);
     };
 }
