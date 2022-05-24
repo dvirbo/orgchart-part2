@@ -11,7 +11,6 @@ namespace ariel
     OrgChart::OrgChart(OrgChart &other) // deep
     {
         this->_root = other._root;
-        // need to check if ned to add assigh to nullptr;
     }
 
     OrgChart &OrgChart::operator=(OrgChart const &other) // overload '=' for deep
@@ -36,6 +35,9 @@ namespace ariel
         {
             shared_ptr<Node> tmp = make_shared<Node>(root);
             this->_root = tmp;
+            std::string str = "dumyasfuck";
+            shared_ptr<Node> dumy = make_shared<Node>(str);
+            this->_dumy = dumy;
         }
         else
         {
@@ -47,7 +49,7 @@ namespace ariel
     bool OrgChart::find_child(shared_ptr<Node> &curr, string &parent, string &child)
     {
         shared_ptr<Node> nchild;
-        if (curr->_name.compare(parent) == 0)
+        if (curr->_name == parent)
         { // equals
             nchild = make_shared<Node>(child);
             nchild->_name = child;
@@ -87,17 +89,17 @@ namespace ariel
         return true;
     }
 
-    void OrgChart::iterator::init_level(shared_ptr<Node> n)
+    void OrgChart::iterator::init_level(shared_ptr<Node> &n)
     {
         queue<shared_ptr<Node>> remain;
-        for (shared_ptr<Node> level : n->_sons)
+        for (shared_ptr<Node> &level : n->_sons)
         {
             this->_level.push_back(level);
             remain.push(level);
         }
         while (!remain.empty())
         {
-            for (shared_ptr<Node> level : remain.front()->_sons)
+            for (shared_ptr<Node> &level : remain.front()->_sons)
             {
                 this->_level.push_back(level);
                 remain.push(level);
@@ -106,22 +108,28 @@ namespace ariel
         }
         this->_ptr = this->_level.front();
     }
-    void OrgChart::iterator::init_reverse(shared_ptr<Node> n)
+    void OrgChart::iterator::init_reverse(shared_ptr<Node> &n)
     {
-        for (auto it = n->_sons.rbegin(); it != n->_sons.rend(); it++) // insert (to begin()) the node child in reverse order
+        queue<shared_ptr<Node>> remain;
+        remain.push(n);
+        while (!remain.empty())
         {
-            this->_reverse.insert(this->_reverse.begin(), (*it));
-        }
-        size_t ind = n->_sons.size() - 1;
-        for (auto it = n->_sons.rbegin(); it != n->_sons.rend(); it++) // recursive call on every child in reverse order
-        {
-            init_reverse(n->_sons[ind]);
-            ind--;
+            shared_ptr<Node> tmp = remain.front();
+            remain.pop();
+            if (!tmp->_sons.empty())
+            {
+                for (auto i = tmp->_sons.size() - 1; i > 0; i--)
+                {
+                    remain.push(tmp->_sons[i]);
+                }
+                remain.push(tmp->_sons[0]);
+            }
+            this->_reverse.insert(this->_reverse.begin(), tmp);
         }
         this->_ptr = this->_reverse.front();
     }
 
-    void OrgChart::iterator::init_pre(shared_ptr<Node> n)
+    void OrgChart::iterator::init_pre(shared_ptr<Node> &n)
     {
         this->_pre.push_back(n);
         for (size_t ind = 0; ind < n->_sons.size(); ind++)
@@ -136,19 +144,38 @@ namespace ariel
     {
         if (this->_ptr != nullptr)
         {
-            if (!this->_ptr->_sons.empty())
+
+            if (this->_order == 1) // inorder
             {
-                if (this->_order == 1) // inorder
+                if (this->_ptr->_sons.empty()) // don't have child
+                {
+                    this->_level.push_back(ptr); // push only the root
+                }
+                else
                 {
                     this->_level.push_back(ptr); // push the root
                     iterator::init_level(ptr);
                 }
-                else if (this->_order == 2) // reverse order
+            }
+            else if (this->_order == 2) // reverse order
+            {
+                if (this->_ptr->_sons.empty()) // don't have child
+                {
+                    this->_reverse.push_back(ptr); // push only the root
+                }
+                else
                 {
                     this->_reverse.push_back(ptr);
                     iterator::init_reverse(ptr);
                 }
-                else // preorder
+            }
+            else // preorder
+            {
+                if (this->_ptr->_sons.empty()) // don't have child
+                {
+                    this->_pre.push_back(ptr); // push only the root
+                }
+                else
                 {
                     iterator::init_pre(ptr);
                 }
@@ -180,7 +207,7 @@ namespace ariel
             this->_ptr = this->_reverse.front();
         }
         else if (_order == 3 && this->_pre.back() != this->_ptr)
-      //  else if (_order == 3 && !this->_pre.empty())
+        //  else if (_order == 3 && !this->_pre.empty())
         {
             this->_pre.erase(this->_pre.begin());
             this->_ptr = this->_pre.front();
@@ -245,7 +272,7 @@ namespace ariel
         }
         queue<shared_ptr<OrgChart::Node>> remain;
         cout << tree._root->_name << endl;
-        for (shared_ptr<OrgChart::Node> curr : tree._root->_sons)
+        for (const shared_ptr<OrgChart::Node> &curr : tree._root->_sons)
         {
             out << curr->_name << "  ";
             remain.push(curr);
@@ -253,7 +280,7 @@ namespace ariel
         out << endl;
         while (!remain.empty())
         {
-            for (shared_ptr<OrgChart::Node> curr : remain.front()->_sons)
+            for (const shared_ptr<OrgChart::Node> &curr : remain.front()->_sons)
             {
                 out << curr->_name << " ";
                 remain.push(curr);

@@ -17,15 +17,16 @@ namespace ariel
             vector<shared_ptr<Node>> _sons;
             shared_ptr<Node> _father;
 
-            Node(string &name) : _name(name){}
+            Node(string &name) : _name(name) {}
         };
         shared_ptr<Node> _root; // init the root here
+        shared_ptr<Node> _dumy;
 
     public:
-        OrgChart();                                     // default
-        ~OrgChart();   
+        OrgChart(); // default
+        ~OrgChart();
         OrgChart(OrgChart &other);                      // deep
-        OrgChart &operator=(OrgChart const &other);           // overload '=' for deep
+        OrgChart &operator=(OrgChart const &other);     // overload '=' for deep
         OrgChart(OrgChart &&other) noexcept;            // shalow
         OrgChart &operator=(OrgChart &&other) noexcept; // overload '=' for shalow
         OrgChart &add_root(string root);
@@ -55,9 +56,9 @@ namespace ariel
             {
                 return _ptr != it._ptr;
             }
-            void init_level(shared_ptr<Node> n);
-            void init_reverse(shared_ptr<Node> n);
-            void init_pre(shared_ptr<Node> n);
+            void init_level(shared_ptr<Node> &n);
+            void init_reverse(shared_ptr<Node> &n);
+            void init_pre(shared_ptr<Node> &n);
         };
 
         iterator begin_level_order();
@@ -70,6 +71,6 @@ namespace ariel
         iterator end();
 
         bool check_root();
-        bool find_child(shared_ptr<Node> &curr, string &parent, string &chid);
+        bool find_child(shared_ptr<Node> &curr, string &parent, string &child);
     };
 }
