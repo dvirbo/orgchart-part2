@@ -31,15 +31,21 @@ namespace ariel
         return *this;
     }
 
+     bool OrgChart::iterator::operator!=(const OrgChart::iterator &it) const
+    {
+        return _ptr != it._ptr;
+    }
+     bool OrgChart::iterator::operator==(const OrgChart::iterator &it) const
+    {
+        return _ptr == it._ptr;
+    }
+
     OrgChart &OrgChart::add_root(string root)
     {
         if (this->_root == nullptr)
         {
             shared_ptr<Node> tmp = make_shared<Node>(root);
             this->_root = tmp;
-            std::string str = "dumyasfuck";
-            shared_ptr<Node> dumy = make_shared<Node>(str);
-            this->_dumy = dumy;
         }
         else
         {
@@ -194,7 +200,7 @@ namespace ariel
     {
         return &(_ptr->_name);
     }
-
+    // overload the '++' operator
     OrgChart::iterator &OrgChart::iterator::operator++()
     {
 
@@ -209,7 +215,6 @@ namespace ariel
             this->_ptr = this->_reverse.front();
         }
         else if (_order == 3 && this->_pre.back() != this->_ptr)
-        //  else if (_order == 3 && !this->_pre.empty())
         {
             this->_pre.erase(this->_pre.begin());
             this->_ptr = this->_pre.front();
@@ -266,6 +271,7 @@ namespace ariel
         check_root();
         return iterator(nullptr, 1);
     }
+    //print the chart
     ostream &operator<<(ostream &out, const OrgChart &tree)
     {
         if (tree._root == nullptr)

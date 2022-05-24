@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon May 23 18:43:36 2022
+# Make data base, printed on Tue May 24 14:10:27 2022
 
 # Variables
 
@@ -57,7 +57,7 @@ PATH = /home/dvirb/.vscode-server/bin/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5/b
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-9aea7fb9-aef1-4e12-b88f-4dd8ac380ae4.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-0d73e6dc-0579-4459-9f0d-472f62812b96.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # automatic
@@ -165,10 +165,10 @@ TIDY_FLAGS = -extra-arg=-std=$(CXXVERSION) -checks=bugprone-*,clang-analyzer-*,c
 
 # Directories
 
-# . (device 2, inode 6473924465068460): 22 files, no impossibilities.
+# . (device 2, inode 6473924465068460): 14 files, no impossibilities.
 # sources (device 2, inode 1688849860989342): 5 files, no impossibilities.
 
-# 27 files, no impossibilities in 2 directories.
+# 19 files, no impossibilities in 2 directories.
 
 # Implicit Rules
 
@@ -300,10 +300,10 @@ StudentTest1.o:
 # strcache buffers: 1 (0) / strings = 39 / storage = 411 B / avg = 10 B
 # current buf: size = 8162 B / used = 411 B / count = 39 / avg = 10 B
 
-# strcache performance: lookups = 66 / hit rate = 40%
+# strcache performance: lookups = 58 / hit rate = 32%
 # hash-table stats:
-# Load=39/8192=0%, Rehash=0, Collisions=2/66=3%
-# Finished Make data base on Mon May 23 18:43:36 2022
+# Load=39/8192=0%, Rehash=0, Collisions=2/58=3%
+# Finished Make data base on Tue May 24 14:10:27 2022
 
  
 make: *** No rule to make target 'all'.  Stop.

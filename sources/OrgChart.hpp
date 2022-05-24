@@ -20,8 +20,6 @@ namespace ariel
             Node(string &name) : _name(name) {}
         };
         shared_ptr<Node> _root; // init the root here
-        shared_ptr<Node> _dumy;
-
     public:
         OrgChart(); // default
         ~OrgChart();
@@ -47,14 +45,8 @@ namespace ariel
             string &operator*() const;  // dereference overload
             string *operator->() const; // arrow overload
             iterator &operator++();
-            bool operator==(const iterator &it) const
-            {
-                return _ptr == it._ptr;
-            }
-            bool operator!=(const iterator &it) const
-            {
-                return _ptr != it._ptr;
-            }
+            bool operator==(const iterator &it) const;
+            bool operator!=(const iterator &it) const;
             void init_level(shared_ptr<Node> &n);
             void init_reverse(shared_ptr<Node> &n);
             void init_pre(shared_ptr<Node> &n);
