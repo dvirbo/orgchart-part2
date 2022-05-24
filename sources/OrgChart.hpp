@@ -26,7 +26,7 @@ namespace ariel
         OrgChart(); // default
         ~OrgChart();
         OrgChart(OrgChart &other);                      // deep
-        OrgChart &operator=(OrgChart const &other);     // overload '=' for deep
+     //   OrgChart &operator=(OrgChart const &other);     // overload '=' for deep
         OrgChart(OrgChart &&other) noexcept;            // shalow
         OrgChart &operator=(OrgChart &&other) noexcept; // overload '=' for shalow
         OrgChart &add_root(string root);
@@ -41,7 +41,6 @@ namespace ariel
             vector<shared_ptr<Node>> _reverse;
             vector<shared_ptr<Node>> _pre;
             int _order; // (1, level), (2, reverse) , (3, pre)
-            int _count;
 
         public:
             iterator(shared_ptr<Node> ptr, int order);

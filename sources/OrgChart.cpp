@@ -10,14 +10,15 @@ namespace ariel
     }
     OrgChart::OrgChart(OrgChart &other) // deep
     {
-        this->_root = other._root;
+        this->_root->_sons = other._root->_sons;
     }
 
-    OrgChart &OrgChart::operator=(OrgChart const &other) // overload '=' for deep
-    {
-        this->_root = other._root;
-        return *this;
-    }
+    // OrgChart &OrgChart::operator=(OrgChart const &other)  // overload '=' for deep
+    // {
+    //     this->_root->_sons = other._root->_sons;
+    //     this->_root->_father = other._root->_father;
+    //     return *this;
+    // }
 
     OrgChart::OrgChart(OrgChart &&other) noexcept // shalow
     {
@@ -26,6 +27,7 @@ namespace ariel
     OrgChart &OrgChart::operator=(OrgChart &&other) noexcept // overload '=' for shalow
     {
         this->_root = other._root;
+        other._root.reset();
         return *this;
     }
 
@@ -140,7 +142,7 @@ namespace ariel
         this->_ptr = this->_pre.front();
     }
 
-    OrgChart::iterator::iterator(shared_ptr<Node> ptr, int order) : _ptr(ptr), _order(order), _count(0)
+    OrgChart::iterator::iterator(shared_ptr<Node> ptr, int order) : _ptr(ptr), _order(order)
     {
         if (this->_ptr != nullptr)
         {
