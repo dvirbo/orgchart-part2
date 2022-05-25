@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue May 24 14:21:18 2022
+# Make data base, printed on Wed May 25 09:20:50 2022
 
 # Variables
 
@@ -213,7 +213,7 @@ StudentTest3.cpp:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-23 18:32:09.36029
+#  Last modified 2022-05-25 09:19:13.8738144
 #  File has been updated.
 #  Successfully updated.
 
@@ -274,7 +274,7 @@ tidy:
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 41):
-	clang-tidy $(SOURCES) $(TIDY_FLAGS) --
+	clang-tidy $(SOURCES) $(HEADERS) $(TIDY_FLAGS) --
 
 valgrind: test
 #  Implicit rule search has not been done.
@@ -303,7 +303,7 @@ StudentTest1.o:
 # strcache performance: lookups = 58 / hit rate = 32%
 # hash-table stats:
 # Load=39/8192=0%, Rehash=0, Collisions=2/58=3%
-# Finished Make data base on Tue May 24 14:21:18 2022
+# Finished Make data base on Wed May 25 09:20:50 2022
 
  
 make: *** No rule to make target 'all'.  Stop.

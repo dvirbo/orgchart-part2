@@ -10,13 +10,14 @@ namespace ariel
     }
     OrgChart::OrgChart(OrgChart &other) // deep
     {
-        this->_root->_sons = other._root->_sons;
+        this->_root = other._root;
     }
 
     // OrgChart &OrgChart::operator=(OrgChart const &other)  // overload '=' for deep
     // {
-    //     this->_root->_sons = other._root->_sons;
-    //     this->_root->_father = other._root->_father;
+    //     // this->_root->_sons = other._root->_sons;
+    //     // this->_root->_father = other._root->_father;
+    //     this->_root = other._root;
     //     return *this;
     // }
 

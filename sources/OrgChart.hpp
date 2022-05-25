@@ -24,7 +24,7 @@ namespace ariel
         OrgChart(); // default
         ~OrgChart();
         OrgChart(OrgChart &other);                      // deep
-     //   OrgChart &operator=(OrgChart const &other);     // overload '=' for deep
+        OrgChart &operator=(OrgChart const &other) = default;   // create the default version of the respective assignment operator
         OrgChart(OrgChart &&other) noexcept;            // shalow
         OrgChart &operator=(OrgChart &&other) noexcept; // overload '=' for shalow
         OrgChart &add_root(string root);
