@@ -19,19 +19,19 @@ namespace ariel
 
             Node(string &name) : _name(name) {}
         };
-        shared_ptr<Node> _root; // init the root here
+        shared_ptr<Node> _root; // declare the root here
     public:
         OrgChart(); // default
         ~OrgChart();
         OrgChart(OrgChart &other);                      // deep
-        OrgChart &operator=(OrgChart const &other) = default;   // create the default version of the respective assignment operator
-        OrgChart(OrgChart &&other) noexcept;            // shalow
-        OrgChart &operator=(OrgChart &&other) noexcept; // overload '=' for shalow
+        OrgChart &operator=(OrgChart const &other);   // default version of the respective assignment operator
+        OrgChart(OrgChart &&other) noexcept;            // shalow for "rvalue reference"
+        OrgChart &operator=(OrgChart &&other) noexcept; // overload '=' for shalow "rvalue reference"
         OrgChart &add_root(string root);
         OrgChart &add_sub(string parent, string child);
         friend std::ostream &operator<<(std::ostream &out, const OrgChart &tree);
 
-        class iterator
+       class iterator
         {
         private:
             shared_ptr<Node> _ptr;

@@ -61,7 +61,7 @@ TEST_CASE("level_order")
     }
     SUBCASE("forech eqals to level order")
     {
-        ans  = "A B C D E F ";
+        ans = "A B C D E F ";
         string check2;
         for (auto element : organization)
         {
@@ -107,4 +107,32 @@ TEST_CASE("pre_order")
     } // prints:
     string ans = "A B D E F C ";
     CHECK(ans == check);
+}
+
+
+TEST_CASE("COPY")
+{
+    OrgChart org1;
+    CHECK_NOTHROW(org1.add_root("A"));
+    CHECK_NOTHROW(org1.add_sub("A", "B"));
+    CHECK_NOTHROW(org1.add_sub("A", "C"));
+    CHECK_NOTHROW(org1.add_sub("B", "D"));
+    CHECK_NOTHROW(org1.add_sub("D", "E"));
+    CHECK_NOTHROW(org1.add_sub("D", "F"));
+
+    SUBCASE("deep")
+    {
+        OrgChart org2(org1); // call for deep
+        auto it1 = org1.begin_preorder();
+        auto it2 = org2.begin_preorder();
+        CHECK((*it1).compare((*it2)) == 0);
+    }
+    SUBCASE("shalow")
+    {
+        OrgChart org3(static_cast<OrgChart &&>(org1)); // call for shalow
+        OrgChart org4(org1);                           // call for deep --> org2 still lvalue
+        auto it3 = org3.begin_preorder();
+        auto it4 = org4.begin_preorder();
+        CHECK((*it4).compare((*it3)) == 0 );
+    }
 }

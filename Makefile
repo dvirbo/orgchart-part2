@@ -15,6 +15,14 @@ HEADERS=$(wildcard $(SOURCE_PATH)/*.hpp)
 OBJECTS=$(subst sources/,objects/,$(subst .cpp,.o,$(SOURCES)))
 
 run: test
+all: main mytest
+	./$^
+
+main: main.o $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+mytest: TestCounter.o Test.o $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
 test: TestRunner.o StudentTest1.o StudentTest2.o StudentTest3.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
@@ -45,4 +53,4 @@ valgrind: test
 
 clean:
 	rm -f $(OBJECTS) *.o test* 
-	rm -f StudentTest*.cpp
+	rm -f StudentTest*.cpp mytest main

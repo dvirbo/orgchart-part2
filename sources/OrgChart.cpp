@@ -11,32 +11,33 @@ namespace ariel
     OrgChart::OrgChart(OrgChart &other) // deep
     {
         this->_root = other._root;
+       // std::cout << "deep" << endl;
     }
+    OrgChart &OrgChart::operator=(OrgChart const &other) = default; // overload '=' for deep
 
-    // OrgChart &OrgChart::operator=(OrgChart const &other)  // overload '=' for deep
-    // {
-    //     // this->_root->_sons = other._root->_sons;
-    //     // this->_root->_father = other._root->_father;
-    //     this->_root = other._root;
-    //     return *this;
-    // }
-
+    /*
+    reason is 'noexcept'
+    :compile-time check that returns true if an expression is declared to not throw any exceptions.
+    reason to use here:
+    https://stackoverflow.com/questions/9249781/are-move-constructors-required-to-be-noexcept
+    */
     OrgChart::OrgChart(OrgChart &&other) noexcept // shalow
     {
         this->_root = other._root;
+       // std::cout << "shalow" << endl;
     }
     OrgChart &OrgChart::operator=(OrgChart &&other) noexcept // overload '=' for shalow
     {
         this->_root = other._root;
-        other._root.reset();
+        other._root.reset(); // other becomes empty
         return *this;
     }
 
-     bool OrgChart::iterator::operator!=(const OrgChart::iterator &it) const
+    bool OrgChart::iterator::operator!=(const OrgChart::iterator &it) const
     {
         return _ptr != it._ptr;
     }
-     bool OrgChart::iterator::operator==(const OrgChart::iterator &it) const
+    bool OrgChart::iterator::operator==(const OrgChart::iterator &it) const
     {
         return _ptr == it._ptr;
     }
@@ -272,7 +273,7 @@ namespace ariel
         check_root();
         return iterator(nullptr, 1);
     }
-    //print the chart
+    // print the chart
     ostream &operator<<(ostream &out, const OrgChart &tree)
     {
         if (tree._root == nullptr)
