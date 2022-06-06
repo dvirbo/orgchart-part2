@@ -3,7 +3,7 @@
 #include <iostream>
 #include <queue>
 #include <vector>
-#include <memory>
+#include <memory> // for smart pointers use
 
 using namespace std;
 
@@ -17,7 +17,7 @@ namespace ariel
             vector<shared_ptr<Node>> _sons;
             shared_ptr<Node> _father;
 
-            Node(string &name) : _name(name) {}
+            Node(string &name) : _name(name) {} // init the node with name
         };
         shared_ptr<Node> _root; // declare the root here
     public:

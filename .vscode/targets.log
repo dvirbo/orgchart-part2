@@ -5,9 +5,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Mon Jun  6 20:46:11 2022
+# Make data base, printed on Mon Jun  6 21:27:31 2022
 
 # Variables
 
@@ -58,7 +57,7 @@ PATH = /home/dvirb/.vscode-server/bin/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5/b
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-212af4f8-6544-4303-b83e-39d2e9d12ed8.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-bbce6da4-7dea-42a5-980b-51f4dbd35efb.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # automatic
@@ -136,7 +135,6 @@ LC_ALL = C
 # makefile (from 'Makefile', line 7)
 SOURCE_PATH = sources
 # environment
- 
 HOSTTYPE = x86_64
 # automatic
 ^F = $(notdir $^)
@@ -158,10 +156,8 @@ VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 WSL_DISTRO_NAME = Ubuntu-20.04
 # makefile (from 'Makefile', line 10)
 TIDY_FLAGS = -extra-arg=-std=$(CXXVERSION) -checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-owning-memory --warnings-as-errors=*
-# environment
-MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=74/1024=7%, Rehash=0, Collisions=4/121=3%
+# Load=73/1024=7%, Rehash=0, Collisions=4/120=3%
 
 # Pattern-specific Variable Values
 
@@ -199,7 +195,6 @@ all: main mytest
 #  recipe to execute (from 'Makefile', line 19):
 	./$^
 
- 
 # Not a target:
 TestRunner.o:
 #  Implicit rule search has not been done.
@@ -238,12 +233,11 @@ test: TestRunner.o StudentTest1.o StudentTest2.o StudentTest3.o objects/OrgChart
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 28):
 	$(CXX) $(CXXFLAGS) $^ -o $@
- 
 
 # Not a target:
 main.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-06 20:44:58.6025538
+#  Last modified 2022-06-06 20:47:53.684466
 #  File has been updated.
 #  Successfully updated.
 
@@ -264,7 +258,6 @@ StudentTest1.cpp:
 objects/OrgChart.o:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
- 
 #  File has not been updated.
 
 # Not a target:
@@ -346,6 +339,7 @@ main.o: main.cpp sources/OrgChart.hpp
 # automatic
 # ? := main.cpp sources/OrgChart.hpp
 # variable set hash-table stats:
+ 
 # Load=8/32=25%, Rehash=0, Collisions=1/17=6%
 #  recipe to execute (from 'Makefile', line 31):
 	$(CXX) $(CXXFLAGS) --compile $< -o $@
@@ -371,7 +365,6 @@ sources/OrgChart.hpp:
 #  Successfully updated.
 
 # files hash-table stats:
- 
 # Load=24/1024=2%, Rehash=0, Collisions=0/57=0%
 # VPATH Search Paths
 
@@ -385,6 +378,6 @@ sources/OrgChart.hpp:
 # strcache performance: lookups = 78 / hit rate = 41%
 # hash-table stats:
 # Load=46/8192=1%, Rehash=0, Collisions=2/78=3%
-# Finished Make data base on Mon Jun  6 20:46:11 2022
+# Finished Make data base on Mon Jun  6 21:27:31 2022
 
  

@@ -2,12 +2,10 @@
 
 namespace ariel
 {
-    OrgChart::OrgChart() // default
-    {
-    }
-    OrgChart::~OrgChart() // default
-    {
-    }
+    OrgChart::OrgChart()  = default; // explicitly defaulted, calls OrgChart::OrgChart()
+ 
+    OrgChart::~OrgChart()  = default; // same as above
+
     OrgChart::OrgChart(OrgChart &other) // deep
     {
         this->_root = other._root;
@@ -29,7 +27,7 @@ namespace ariel
     OrgChart &OrgChart::operator=(OrgChart &&other) noexcept // overload '=' for shalow
     {
         this->_root = other._root;
-        other._root.reset(); // other becomes empty
+    //    other._root.reset(); // other becomes empty
         return *this;
     }
 

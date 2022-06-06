@@ -20,7 +20,7 @@ int main()
     OrgChart org3(static_cast<OrgChart &&>(org2)); // call for shalow
     OrgChart org4(org2);                           // call for shalow --> org2 still lvalue
 
-    for (auto it = org1.begin_preorder(); it != org1.end_preorder(); ++it)
+    for (auto it = org2.begin_preorder(); it != org2.end_preorder(); ++it)
     {
         cout << it->data() << " "; // // arrow overload
     }
