@@ -34,10 +34,10 @@ namespace ariel
        class iterator
         {
         private:
-            shared_ptr<Node> _ptr;
-            vector<shared_ptr<Node>> _level;
-            vector<shared_ptr<Node>> _reverse;
-            vector<shared_ptr<Node>> _pre;
+            shared_ptr<Node> _ptr; // pointer to curr node in the iterator
+            vector<shared_ptr<Node>> _level; // vector that rep 'level ordder'
+            vector<shared_ptr<Node>> _reverse; // vector that rep 'reverse ordder'
+            vector<shared_ptr<Node>> _pre; // vector that rep 'pre ordder'
             int _order; // (1, level), (2, reverse) , (3, pre)
 
         public:
@@ -61,7 +61,7 @@ namespace ariel
         iterator begin();
         iterator end();
 
-        bool check_root();
-        bool find_child(shared_ptr<Node> &curr, string &parent, string &child);
+        bool check_root(); 
+        bool find_parent(shared_ptr<Node> &curr, string &parent, string &child);
     };
 }

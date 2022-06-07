@@ -2,14 +2,14 @@
 
 namespace ariel
 {
-    OrgChart::OrgChart()  = default; // explicitly defaulted, calls OrgChart::OrgChart()
- 
-    OrgChart::~OrgChart()  = default; // same as above
+    OrgChart::OrgChart() = default; // explicitly defaulted, calls OrgChart::OrgChart()
+
+    OrgChart::~OrgChart() = default; // same as above
 
     OrgChart::OrgChart(OrgChart &other) // deep
     {
         this->_root = other._root;
-       // std::cout << "deep" << endl;
+        // std::cout << "deep" << endl;
     }
     OrgChart &OrgChart::operator=(OrgChart const &other) = default; // overload '=' for deep
 
@@ -22,12 +22,12 @@ namespace ariel
     OrgChart::OrgChart(OrgChart &&other) noexcept // shalow
     {
         this->_root = other._root;
-       // std::cout << "shalow" << endl;
+        // std::cout << "shalow" << endl;
     }
     OrgChart &OrgChart::operator=(OrgChart &&other) noexcept // overload '=' for shalow
     {
         this->_root = other._root;
-    //    other._root.reset(); // other becomes empty
+        //    other._root.reset(); // other becomes empty
         return *this;
     }
 
@@ -53,25 +53,27 @@ namespace ariel
         }
         return *this;
     }
-
-    bool OrgChart::find_child(shared_ptr<Node> &curr, string &parent, string &child)
+    /*
+    recursive helper function that find the parent using his name in order to add him new child
+    */
+    bool OrgChart::find_parent(shared_ptr<Node> &curr, string &parent, string &child)
     {
-        shared_ptr<Node> nchild;
-        if (curr->_name == parent)
+        shared_ptr<Node> nchild; // init shared_ptr of Node
+        if (curr->_name == parent) // finfd the parent
         { // equals
-            nchild = make_shared<Node>(child);
+            nchild = make_shared<Node>(child); // assign
             nchild->_name = child;
             curr->_sons.push_back(nchild);
-            return true;
+            return true; // found
         }
         for (size_t i = 0; i < curr->_sons.size(); i++)
         {
-            if (find_child(curr->_sons.at(i), parent, child))
+            if (find_parent(curr->_sons.at(i), parent, child)) // recursive call on each one of the curr sons
             {
                 return true;
             }
         }
-        return false;
+        return false; // didn't found  - parent don't exist
     }
 
     OrgChart &OrgChart::add_sub(string parent, string child)
@@ -80,7 +82,7 @@ namespace ariel
         {
             throw invalid_argument("root don't exist");
         }
-        if (!find_child(_root, parent, child))
+        if (!find_parent(_root, parent, child))
         {
             throw runtime_error("parent don't exist");
         }
@@ -99,7 +101,7 @@ namespace ariel
 
     void OrgChart::iterator::init_level(shared_ptr<Node> &n)
     {
-        queue<shared_ptr<Node>> remain;
+        queue<shared_ptr<Node>> remain; // q that contain all the remain nodes that needed to check there childs
         for (shared_ptr<Node> &level : n->_sons)
         {
             this->_level.push_back(level);
@@ -109,20 +111,23 @@ namespace ariel
         {
             for (shared_ptr<Node> &level : remain.front()->_sons)
             {
-                this->_level.push_back(level);
-                remain.push(level);
+                this->_level.push_back(level); // push the curr node son to _level
+                remain.push(level);            // push the curr node son to remain - need to check his childs
             }
-            remain.pop();
+            remain.pop(); // when finish check all curr sons  - pop him from remain
         }
-        this->_ptr = this->_level.front();
+        this->_ptr = this->_level.front(); // _ptr now point to first eement in _level vec
     }
+
     void OrgChart::iterator::init_reverse(shared_ptr<Node> &n)
     {
         queue<shared_ptr<Node>> remain;
+        shared_ptr<Node> tmp;
         remain.push(n);
         while (!remain.empty())
         {
-            shared_ptr<Node> tmp = remain.front();
+            tmp.reset(); // reset the smart pointer
+            tmp = remain.front();
             remain.pop();
             if (!tmp->_sons.empty())
             {
@@ -140,12 +145,12 @@ namespace ariel
     void OrgChart::iterator::init_pre(shared_ptr<Node> &n)
     {
         this->_pre.push_back(n);
-        for (size_t ind = 0; ind < n->_sons.size(); ind++)
+        for (size_t ind = 0; ind < n->_sons.size(); ++ind)
         {
 
-            init_pre(n->_sons.at(ind));
+            init_pre(n->_sons.at(ind)); // left
         }
-        this->_ptr = this->_pre.front();
+        this->_ptr = this->_pre.front(); // eventually
     }
 
     OrgChart::iterator::iterator(shared_ptr<Node> ptr, int order) : _ptr(ptr), _order(order)
@@ -155,7 +160,7 @@ namespace ariel
 
             if (this->_order == 1) // inorder
             {
-                if (this->_ptr->_sons.empty()) // don't have child
+                if (this->_ptr->_sons.empty()) // don't have child - cause seg fault if we init with no childs
                 {
                     this->_level.push_back(ptr); // push only the root
                 }
@@ -173,7 +178,6 @@ namespace ariel
                 }
                 else
                 {
-                    this->_reverse.push_back(ptr);
                     iterator::init_reverse(ptr);
                 }
             }
@@ -190,12 +194,12 @@ namespace ariel
             }
         }
     }
-
+    // return reference to string
     string &OrgChart::iterator::operator*() const
     {
         return _ptr->_name;
     }
-
+    // return address to string (-> overload)
     string *OrgChart::iterator::operator->() const
     {
         return &(_ptr->_name);
@@ -203,9 +207,8 @@ namespace ariel
     // overload the '++' operator
     OrgChart::iterator &OrgChart::iterator::operator++()
     {
-
         if (_order == 1 && this->_level.back() != this->_ptr)
-        {
+        { // not get to end
             this->_level.erase(this->_level.begin());
             this->_ptr = this->_level.front();
         }
@@ -221,12 +224,14 @@ namespace ariel
         }
         else
         {
-            _ptr = nullptr;
-            return *this;
+            _ptr = nullptr; // finish to iterate: can't ++ anymore
         }
+
         return *this;
     }
-
+    /*
+    return iterator for level order' iterate
+    */
     OrgChart::iterator OrgChart::begin_level_order()
     {
         check_root();
@@ -271,7 +276,7 @@ namespace ariel
         check_root();
         return iterator(nullptr, 1);
     }
-    // print the chart
+    // print the chart like leverl order
     ostream &operator<<(ostream &out, const OrgChart &tree)
     {
         if (tree._root == nullptr)
@@ -283,7 +288,7 @@ namespace ariel
         for (const shared_ptr<OrgChart::Node> &curr : tree._root->_sons)
         {
             out << curr->_name << "  ";
-            remain.push(curr);
+            remain.push(curr); // add to remain -> print this node childs (if exist..)
         }
         out << endl;
         while (!remain.empty())

@@ -20,9 +20,11 @@ int main()
     OrgChart org3(static_cast<OrgChart &&>(org2)); // call for shalow
     OrgChart org4(org2);                           // call for shalow --> org2 still lvalue
 
-    for (auto it = org2.begin_preorder(); it != org2.end_preorder(); ++it)
+    for (auto it = org2.begin_reverse_order(); it != org2.reverse_order(); ++it)
     {
         cout << it->data() << " "; // // arrow overload
+       // cout << (*it) << " "; //same only the root name changed
+
     }
     cout<< endl;
     for (auto element : org4) //  work like level order
@@ -40,3 +42,8 @@ int main()
     cout<< endl;
 
 }
+
+/*
+unknown dvir shira eitan roza rita baruch 
+unknown dvir shira eitan roza rita baruch 
+*/
